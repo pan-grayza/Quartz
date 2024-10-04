@@ -1,0 +1,29 @@
+[package]
+name = "quartz"
+version = "0.1.0"
+description = "A Tauri App"
+authors = ["you"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "quartz_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0.0-rc", features = [] }
+
+[dependencies]
+tauri = { version = "2.0.0-rc", features = [] }
+tauri-plugin-shell = "2.0.0-rc"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1.40.0", features = ["full"] }
+thiserror = "1.0.64"
+lazy_static = "1.5.0"
+notify = "6.1.1"
+notify-debouncer-full = "0.3.1"
+tauri-plugin-dialog = "2.0.0-rc"
+warp = "0.3.7"
+

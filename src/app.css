@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+:root {
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+
+    color: #171717;
+    background-color: #f5f5f5;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+
+.titlebar {
+    height: 32px;
+    background: #efefef;
+    user-select: none;
+    display: flex;
+    justify-content: flex-end;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+.titlebar-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 32px;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+    outline: none;
+    border: none;
+}
+.titlebar-button:hover {
+    background-color: color(srgb 1 1 1 / 0.1);
+}
+.titlebar-button-close:hover {
+    background-color: #ef141f;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color: #f5f5f5;
+        background-color: #18181b;
+    }
+    .titlebar {
+        color: #f5f5f5;
+        background-color: #09090b;
+    }
+    .titlebar-button {
+        color: #f5f5f5;
+    }
+}
