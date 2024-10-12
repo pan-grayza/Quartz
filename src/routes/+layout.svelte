@@ -1,24 +1,24 @@
 <script lang="ts">
     import { getCurrentWindow } from '@tauri-apps/api/window'
+    import { linked_paths } from 'src/store'
     import { invoke } from '@tauri-apps/api/core'
     import { onMount } from 'svelte'
     import { listen } from '@tauri-apps/api/event'
-    import '../app.css'
+    import 'src/app.css'
     // Components
-    import Menu from '../components/Menu.svelte'
+    import Menu from 'src/components/Menu.svelte'
     // Icons
-    import MinimizeIcon from '../icons/line.svelte'
-    import MaximizeIcon from '../icons/copy.svelte'
-    import SquareIcon from '../icons/square.svelte'
-    import CloseIcon from '../icons/close.svelte'
+    import MinimizeIcon from 'src/icons/line.svelte'
+    import MaximizeIcon from 'src/icons/copy.svelte'
+    import SquareIcon from 'src/icons/square.svelte'
+    import CloseIcon from 'src/icons/close.svelte'
 
-    let linked_paths: void | LinkedPath[] = []
     let isMaximized = false
     let isMenuOpen = false
 
     async function get_linked_paths() {
         await invoke<LinkedPath[]>('get_linked_paths')
-            .then((paths) => (linked_paths = paths))
+            .then((paths) => ($linked_paths = paths))
             .catch((e) => console.error(e))
     }
     async function unlink_directory(pathName: string) {
@@ -105,7 +105,7 @@
         <nav
             class="relative flex-col hidden w-40 h-full border-r shrink-0 sm:flex border-neutral-700"
         >
-            <Menu {linked_paths} {unlink_directory} />
+            <Menu {unlink_directory} />
         </nav>
 
         <!-- Main content -->
@@ -134,7 +134,7 @@
                 >
                 </button>
                 <div class="z-10 w-3/4 p-4 overflow-auto h-3/4">
-                    <Menu {linked_paths} {unlink_directory} />
+                    <Menu {unlink_directory} />
                 </div>
             </div>
         {/if}

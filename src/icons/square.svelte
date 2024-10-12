@@ -1,7 +1,7 @@
 <script lang="ts">
-    export let stroke_width = '1.5'
-    export let size = '24'
-    export let className = '' + 'feather feather-x'
+    export let stroke_width: number | string = '1.5'
+    export let size: number | string = '24'
+    export let className = '' + 'feather feather-square'
 </script>
 
 <svg

@@ -1,6 +1,6 @@
 <script lang="ts">
-    export let stroke_width = '1.25'
-    export let size = '24'
+    export let stroke_width: number | string = '1.25'
+    export let size: number | string = '24'
     export let className = '' + 'feather feather-x'
 </script>
 

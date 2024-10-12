@@ -5,11 +5,11 @@ export default {
         extend: {
             colors: {
                 LightModeBG: '#f5f5f5',
-                DarkModeBG: '#09090B',
+                DarkModeBG: '#18181b',
                 LightModeTitleBarBG: '#e5e5e5',
-                DarkModeTitleBarBG: '#18181b',
+                DarkModeTitleBarBG: '#09090b',
                 LightModeTextInputBG: '#e5e5e5',
-                DarkModeTextInputBG: '#171717',
+                DarkModeTextInputBG: '#27272a',
                 LightModePrimBtn: '#e5e5e5',
                 DarkModePrimBtn: '#e4e4e7',
                 LightModePrimBtnHover: '#e5e5e5',

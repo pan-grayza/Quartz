@@ -6,11 +6,38 @@ pub struct LinkedPath {
     pub name: String,
     pub path: PathBuf,
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
+pub struct LocalNetwork {
+    pub name: String,
+    pub port: i32,
+    pub linked_paths: Vec<LinkedPath>,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
+pub struct InternetNetwork {
+    pub name: String,
+    pub address: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
+pub struct DarkWebNetwork {
+    pub name: String,
+    pub address: String,
+}
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
+pub enum Network {
+    LocalNetwork(LocalNetwork),
+    InternetNetwork(InternetNetwork),
+    DarkWebNetwork(DarkWebNetwork),
+}
 #[derive(Serialize, Deserialize, Clone)]
 pub enum ServerMode {
     LocalHost,
     Internet,
     DarkWeb,
+}
+#[derive(Default)]
+pub struct ServerState {
+    pub shutdown_tx: Option<tokio::sync::mpsc::Sender<()>>,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -36,8 +63,8 @@ pub enum FileError {
     FileOpenError(#[from] std::io::Error),
     #[error("failed serialize json json")]
     SerdeJsonError(#[from] serde_json::Error),
-    // #[error("failed to parse TOML")]
-    // TomlSerializeError(#[from] toml::ser::Error),
+    #[error("missing 'linked_paths' field in the JSON")]
+    MissingLinkedPathsError,
 }
 
 impl serde::Serialize for FileError {
