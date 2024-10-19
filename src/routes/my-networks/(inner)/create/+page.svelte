@@ -36,6 +36,12 @@
             )
         }
     }
+    function handleRadioServerModes(e: Event, serverMode: ServerMode) {
+        const checkbox = e.target as HTMLInputElement
+        if (checkbox.checked) {
+            serverModeState = serverMode
+        }
+    }
 </script>
 
 <div class="relative flex flex-row w-full h-full gap-2">
@@ -43,11 +49,15 @@
         <div>
             <h1>Choose server mode</h1>
             {#each serverModes as serverMode}
-                <Button
-                    onClick={() => {
-                        serverModeState = serverMode
-                    }}>{serverMode}</Button
-                >
+                <input
+                    name={serverMode}
+                    type="radio"
+                    on:change={(e) => {
+                        handleRadioServerModes(e, serverMode)
+                    }}
+                />
+
+                <label for={serverMode}>{serverMode}</label>
             {/each}
         </div>
 

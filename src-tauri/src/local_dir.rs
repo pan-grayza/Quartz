@@ -1,4 +1,3 @@
-use crate::types::LocalNetwork;
 //Uses
 use crate::types::{Error, FileError, LinkedPath, Network};
 use notify::RecommendedWatcher;
@@ -153,7 +152,7 @@ pub fn unlink_directory(app: AppHandle, path_name: String) -> Result<String, Fil
         eprintln!("Failed to emit event to frontend: {}", e);
     }
 
-    Ok("Directory removed successfully".to_string())
+    Ok("Directory unlinked successfully".to_string())
 }
 #[tauri::command]
 pub fn create_local_network(
@@ -173,11 +172,11 @@ pub fn create_local_network(
     // Modify the `networks` field without altering other fields
     if let Some(networks_value) = json_value.get_mut("networks") {
         let mut networks: Vec<Network> = serde_json::from_value(networks_value.clone())?;
-        let new_network = Network::LocalNetwork(LocalNetwork {
+        let new_network = Network::LocalNetwork {
             name,
-            port: 3030,
             linked_paths,
-        });
+            port: 3030,
+        };
         networks.push(new_network);
         *networks_value = serde_json::to_value(&networks)?;
     } else {
@@ -195,36 +194,28 @@ pub fn create_local_network(
 }
 
 #[tauri::command]
-pub fn remove_network(app: AppHandle, network_to_remove: Network) -> Result<String, FileError> {
-    let mut json_value = read_private_config()?;
+pub fn remove_network(app: AppHandle, network_name: String) -> Result<String, String> {
+    let mut json_value = read_private_config().unwrap();
 
     // Modify the `networks` field without altering other fields
-    if let Some(networks_value) = json_value.get_mut("linked_paths") {
-        let mut networks: Vec<LinkedPath> = serde_json::from_value(networks_value.clone())?;
-        match network_to_remove {
-            Network::LocalNetwork(remove_network) => {
-                networks.retain(|network| network.name != remove_network.name);
-            }
-            Network::InternetNetwork(remove_network) => {
-                networks.retain(|network| network.name != remove_network.name);
-            }
-            Network::DarkWebNetwork(remove_network) => {
-                networks.retain(|network| network.name != remove_network.name);
-            }
-        }
+    if let Some(networks_value) = json_value.get_mut("networks") {
+        let mut networks: Vec<Network> = serde_json::from_value(networks_value.clone()).unwrap();
 
-        *networks_value = serde_json::to_value(&networks)?;
+        networks.retain(|network| match network {
+            Network::LocalNetwork { name, .. } => name != network_name.as_str(),
+            Network::InternetNetwork { name, .. } => name != network_name.as_str(),
+            Network::DarkWebNetwork { name, .. } => name != network_name.as_str(),
+        });
+
+        *networks_value = serde_json::to_value(&networks).unwrap();
     } else {
-        return Err(FileError::MissingLinkedPathsError);
+        return Err("Error".to_string());
     }
-
     // Write the updated JSON back to the file
-    write_json_to_file(&json_value)?;
-
+    let _ = write_json_to_file(&json_value);
     if let Err(e) = app.emit("linked_paths_changed", ()) {
         eprintln!("Failed to emit event to frontend: {}", e);
     }
-
     Ok("Directory removed successfully".to_string())
 }
 

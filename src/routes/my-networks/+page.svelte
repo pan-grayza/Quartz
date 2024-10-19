@@ -3,22 +3,23 @@
     import { onMount } from 'svelte'
     import { listen } from '@tauri-apps/api/event'
     import { networks } from 'src/store'
-    async function get_networks() {
+
+    async function getNetworks() {
         await invoke<Network[]>('read_private_networks')
             .then((updated_networks) => ($networks = updated_networks))
             .catch((e) => console.error(e))
     }
-    async function remove_network(network: Network) {
-        await invoke('remove_network', { network })
-    }
+
     onMount(() => {
         listen('linked_paths_changed', async () => {
-            await get_networks() // Re-fetch linked paths when the event is received
+            await getNetworks()
         })
 
-        // Initial fetch of linked paths
-        get_networks()
+        getNetworks()
     })
+    async function removeNetwork(networkName: string) {
+        await invoke('remove_network', { networkName: 'Home' })
+    }
 </script>
 
 <div class="relative flex flex-col w-full h-full">
@@ -28,14 +29,11 @@
             {#if $networks && $networks.length !== 0}
                 {#each $networks as network}
                     <li>
-                        {#if 'LocalNetwork' in network}
-                            <p>{network.LocalNetwork.name}</p>
-                        {:else if 'InternetNetwork' in network}
-                            <p>{network.InternetNetwork.name}</p>
-                        {:else if 'DarkWebNetwork' in network}
-                            <p>{network.DarkWebNetwork.name}</p>
-                        {/if}
-                        <button on:click={() => remove_network(network)}>
+                        <a href={`my-networks/${network.name}`}
+                            >{network.name}</a
+                        >
+
+                        <button on:click={() => removeNetwork(network.name)}>
                             Remove
                         </button>
                     </li>

@@ -80,9 +80,13 @@ pub async fn file_server(
     let routes = combined_fs_routes;
     match server_mode {
         ServerMode::LocalHost => {
-            warp::serve(routes).bind_with_graceful_shutdown(([127, 0, 0, 1], 3030), async move {
-                shutdown_rx.recv().await;
-            });
+            let (_, server_future) = warp::serve(routes).bind_with_graceful_shutdown(
+                ([127, 0, 0, 1], 3030),
+                async move {
+                    shutdown_rx.recv().await;
+                },
+            );
+            server_future.await;
         }
         ServerMode::Internet => {}
         ServerMode::DarkWeb => {}

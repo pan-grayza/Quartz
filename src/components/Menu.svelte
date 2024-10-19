@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let unlink_directory: (name: string) => void
+    export let unlinkDirectory: (name: string) => void
     import { linked_paths } from 'src/store'
 </script>
 
@@ -12,7 +12,7 @@
                     <li>
                         {linked_path.name}
                         <button
-                            on:click={() => unlink_directory(linked_path.name)}
+                            on:click={() => unlinkDirectory(linked_path.name)}
                         >
                             Remove
                         </button>

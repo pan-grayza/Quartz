@@ -2,22 +2,24 @@ interface LinkedPath {
     name: string
     path: string
 }
-interface LocalNetwork {
+interface BaseNetwork {
     name: string
+    linked_paths: LinkedPath[]
+}
+
+interface LocalNetwork extends BaseNetwork {
     port: number
-    linkedPaths: LinkedPath[] // Vec<LinkedPath> becomes LinkedPath[]
 }
-interface InternetNetwork {
-    name: string
+
+interface InternetNetwork extends BaseNetwork {
     address: string
 }
-interface DarkWebNetwork {
-    name: string
+
+interface DarkWebNetwork extends BaseNetwork {
     address: string
 }
-type Network =
-    | { LocalNetwork: LocalNetwork }
-    | { InternetNetwork: InternetNetwork }
-    | { DarkWebNetwork: DarkWebNetwork }
+
+// Union of network types
+type Network = LocalNetwork | InternetNetwork | DarkWebNetwork
 
 type ServerMode = 'LocalHost' | 'Internet' | 'DarkWeb'

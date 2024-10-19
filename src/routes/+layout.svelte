@@ -16,12 +16,12 @@
     let isMaximized = false
     let isMenuOpen = false
 
-    async function get_linked_paths() {
+    async function getLinkedPaths() {
         await invoke<LinkedPath[]>('get_linked_paths')
             .then((paths) => ($linked_paths = paths))
             .catch((e) => console.error(e))
     }
-    async function unlink_directory(pathName: string) {
+    async function unlinkDirectory(pathName: string) {
         await invoke('unlink_directory', { pathName })
     }
 
@@ -40,11 +40,9 @@
     onMount(() => {
         setupEventListeners()
         listen('linked_paths_changed', async () => {
-            await get_linked_paths() // Re-fetch linked paths when the event is received
+            await getLinkedPaths()
         })
-
-        // Initial fetch of linked paths
-        get_linked_paths()
+        getLinkedPaths()
     })
     function isMobileDevice() {
         return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -105,7 +103,7 @@
         <nav
             class="relative flex-col hidden w-40 h-full border-r shrink-0 sm:flex border-neutral-700"
         >
-            <Menu {unlink_directory} />
+            <Menu {unlinkDirectory} />
         </nav>
 
         <!-- Main content -->
@@ -134,7 +132,7 @@
                 >
                 </button>
                 <div class="z-10 w-3/4 p-4 overflow-auto h-3/4">
-                    <Menu {unlink_directory} />
+                    <Menu {unlinkDirectory} />
                 </div>
             </div>
         {/if}

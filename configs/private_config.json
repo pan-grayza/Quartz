@@ -5,50 +5,25 @@
       "path": "C:\\Users\\pasna\\Stepan\\Books"
     },
     {
-      "name": "Code",
-      "path": "C:\\Users\\pasna\\Stepan\\Code"
-    },
-    {
-      "name": "Downloads",
-      "path": "C:\\Users\\pasna\\Downloads"
-    },
-    {
-      "name": "wallpapers",
-      "path": "C:\\Users\\pasna\\Pictures\\Wallpapers"
-    },
-    {
       "name": "Academic",
       "path": "C:\\Users\\pasna\\Stepan\\Books\\Academic"
     }
   ],
   "networks": [
     {
-      "LocalNetwork": {
-        "linked_paths": [
-          {
-            "name": "Books",
-            "path": "C:\\Users\\pasna\\Stepan\\Books"
-          },
-          {
-            "name": "Code",
-            "path": "C:\\Users\\pasna\\Stepan\\Code"
-          }
-        ],
-        "name": "Home",
-        "port": 3030
-      }
-    },
-    {
-      "LocalNetwork": {
-        "linked_paths": [
-          {
-            "name": "wallpapers",
-            "path": "C:\\Users\\pasna\\Pictures\\Wallpapers"
-          }
-        ],
-        "name": "OnlyWalls",
-        "port": 3030
-      }
+      "linked_paths": [
+        {
+          "name": "Books",
+          "path": "C:\\Users\\pasna\\Stepan\\Books"
+        },
+        {
+          "name": "Academic",
+          "path": "C:\\Users\\pasna\\Stepan\\Books\\Academic"
+        }
+      ],
+      "name": "Home",
+      "port": 3030,
+      "type": "localNetwork"
     }
   ]
 }

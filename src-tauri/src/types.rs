@@ -7,27 +7,25 @@ pub struct LinkedPath {
     pub path: PathBuf,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
-pub struct LocalNetwork {
-    pub name: String,
-    pub port: i32,
-    pub linked_paths: Vec<LinkedPath>,
-}
-#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
-pub struct InternetNetwork {
-    pub name: String,
-    pub address: String,
-}
-#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
-pub struct DarkWebNetwork {
-    pub name: String,
-    pub address: String,
-}
-#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
+// Enum to represent the Network type
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(tag = "type", rename_all = "camelCase")] // Matches TypeScript structure
 pub enum Network {
-    LocalNetwork(LocalNetwork),
-    InternetNetwork(InternetNetwork),
-    DarkWebNetwork(DarkWebNetwork),
+    LocalNetwork {
+        name: String,
+        linked_paths: Vec<LinkedPath>,
+        port: u16,
+    },
+    InternetNetwork {
+        name: String,
+        linked_paths: Vec<LinkedPath>,
+        address: String,
+    },
+    DarkWebNetwork {
+        name: String,
+        linked_paths: Vec<LinkedPath>,
+        address: String,
+    },
 }
 #[derive(Serialize, Deserialize, Clone)]
 pub enum ServerMode {

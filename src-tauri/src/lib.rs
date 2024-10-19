@@ -25,6 +25,7 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .manage(Arc::new(Mutex::new(ServerState::default())))
         .invoke_handler(tauri::generate_handler![
+            remove_network,
             select_directory,
             link_directory,
             unlink_directory,
@@ -33,7 +34,6 @@ pub fn run() {
             stop_file_server_command,
             read_private_networks,
             create_local_network,
-            remove_network
         ])
         .setup(|app| {
             let app_handle = app.handle().clone();
